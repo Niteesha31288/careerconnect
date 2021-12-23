@@ -57,7 +57,7 @@ def findJobs(skills):
                 jobs.append(job.get('_source').get('jobids'))
             jobs = set(jobs)
             print(jobs)
-            # response = requests.get(host,headers=headers,auth=('cloud', 'Cloud@2021'))
+            # response = requests.get(host,headers=headers,auth=('', ''))
             # print('inside fnidjobs try')
             # print(response)
             # response = json.loads(response.content.decode('utf-8'))
