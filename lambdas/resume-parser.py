@@ -31,7 +31,7 @@ def lambda_handler(event, context):
     print(user_logInEmailId)
     fs = obj.get()['Body'].read()
     resume = pdfminer.high_level.extract_text(BytesIO(fs))
-    table = boto3.resource('dynamodb',region_name='us-east-1', aws_access_key_id='AKIAYFI36SG745YYIEC2', aws_secret_access_key='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').Table("skillset")
+    table = boto3.resource('dynamodb',region_name='us-east-1', aws_access_key_id='', aws_secret_access_key='').Table("skillset")
     #obtainedResumeText = fileTextExtractor(resume)
     obtainedResumeText= resume
     finalExtractedEmail , finalExtractedPhone = personalDetailExtractor(obtainedResumeText)
