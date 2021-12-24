@@ -33,7 +33,8 @@ Indeed
 Linkedin
 
 Architecture Diagram:
-:[/upload]
+
+![](https://github.com/virenmparmar/CareerConnect/blob/main/IMG-20211223-WA0004.jpg)
 
 Clickable Prototype:
 https://sites.google.com/view/careerconnect
