@@ -34,7 +34,7 @@ Linkedin
 
 Architecture Diagram:
 
-![](https://github.com/virenmparmar/CareerConnect/blob/main/IMG-20211223-WA0004.jpg)
+![](IMG-20211223-WA0004.jpg)
 
 Clickable Prototype:
 https://sites.google.com/view/careerconnect
