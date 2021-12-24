@@ -32,13 +32,16 @@ Existing Products-:
 Indeed
 Linkedin
 
+Architecture Diagram:
+:[/upload]
 
 Clickable Prototype:
 https://sites.google.com/view/careerconnect
 
 MVP: 
 Link: https://youtu.be/IsX6h7OIIQk 
-
+Final Demo: 
+Link: https://youtu.be/VYDpNQstYYk
 Presentation:
 https://docs.google.com/presentation/d/1lKvwdzgdAEvxtLmBqAvJzV9iRkasSTfqpN4CHBMA5Gw/edit?usp=sharing
 
