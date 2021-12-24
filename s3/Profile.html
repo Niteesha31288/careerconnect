@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <!---we had linked our css file----->
+</head>
+<body onload="getToken()">
+    <div class="full-page">
+        <div class="navbar">
+            <div>
+                <a href='website.html'>Career Connect</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <!-- <li><a href='index.html'>Home</a></li>
+                    <li><a href='Signup.html'>Signup</a></li> -->
+                    <li><a href='Profile.html'>Profile</a></li>
+                    <li><a href='Application+Tracker.html'>Application Tracker</a></li>
+                    <li><a href='Connect.html'>Connect</a></li>
+                    <li><a href='Find+Job.html'>Find Job</a></li>
+                    <li><a href='Discussion+Forum.html'>Discussion Forum</a></li>
+                    <li><a href='https://careerconnect.auth.us-east-1.amazoncognito.com/logout?client_id=48rraapi5o38rp7oumomnvl181&logout_uri=https://frontendcareerconnect.s3.us-east-1.amazonaws.com/index.html'>SignOut</a></li>
+                    <!-- <li><button class='loginbtn' onclick="document.getElementById('login-           form').style.display='block'" style="width:auto;">Login</button></li> -->
+                </ul>
+            </nav>
+        </div>
+        <div class="Profile" >
+            <h1>Profile</h1><br><br>
+		<div>
+		<div class="userDetails" id="userDetails" style="width: 100%">
+			<input type="button" id="getDetails" style="height:50px;width:108px" value="User Details" onclick="getUserDetails()">
+		</div>
+		<div class="resume">
+            <h2>Upload your resume here</h2><br>
+            <form action="/action_page.php">
+                <label for="img">Select Resume:</label>
+                <input type="file" id="myFile" name="filename">
+                <!-- <input type="submit"> -->
+                <input type="button" id="uploadresume" style="height:50px;width:108px" value="UploadResume" onclick="submitUpload()">
+            </form>
+        </div>
+    </div>
+</body>
+
+<script id="imgTest" type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="apigClient.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1045.0.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+
+<!-- <script src="dist/main.js"></script> -->
+<script>
+    function getToken(){
+	var queryString = window.location.hash;
+		// console.log(queryString);
+	const urlParams = new URLSearchParams(queryString);
+	const access_token = urlParams.get("access_token");
+	console.log(access_token);
+	console.log(localStorage.getItem("access_token"));
+	if(access_token!=null)
+	{
+	localStorage.setItem("access_token",access_token);
+	}
+	console.log(localStorage.getItem("access_token"));
+}
+function submitUpload(evt) {
+	alert("called")
+	var filesSelected = document.getElementById("myFile").files;
+//   var labels = document.getElementById("customlabels").value;
+//   var error = document.getElementById("error");
+
+  
+//   error.textContent=""
+
+
+    if (filesSelected.length > 0) {
+      var fileToLoad = filesSelected[0];
+
+      var fileReader = new FileReader();
+
+      fileReader.onload = function(fileLoadedEvent) {
+			var srcData = fileLoadedEvent.target.result; // <--- data: base64
+			console.log("Converted Base64 version is " + srcData);
+			var params = {
+				headers: {
+					param0: 'Accept:application/json',
+					}
+				};
+			var queryString = window.location.hash;
+			// console.log(queryString);
+			const urlParams = new URLSearchParams(queryString);
+			const access_token = urlParams.get("access_token");
+			console.log(access_token);
+            console.log(fileToLoad.name)
+            var solution = srcData.split("base64,")[1];
+            console.log(solution)
+
+            var body = JSON.stringify({"img": solution, "name":fileToLoad.name, "access_token": access_token});
+
+            var apigClient = apigClientFactory.newClient();
+            apigClient.uploadResumePost(params, body)
+            .then(function(result){
+              console.log('went to then')
+            }).catch( function(result){
+              console.log('went to catch')
+            });
+
+      }
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+  function getUserDetails(evt) {
+	 alert("called")
+    const access_token = localStorage.getItem("access_token");
+	
+    console.log(access_token);
+    var params = {
+                headers: {
+                    param0: 'Accept:application/json',
+                    },
+                token: access_token
+                };
+    var body = JSON.stringify({"token": access_token});
+    var apigClient = apigClientFactory.newClient();
+            apigClient.rootGet(params, body)
+            .then(function(result){
+              var data= result.data;
+			  console.log(data)
+              var outputhtml ="";
+              
+              outputhtml += '<div class="row" style="height:100%;width:100%;background-color:#b0d5cb>'
+              outputhtml += '<div class="column" style="height:100px;width:100%;background-color:#b0d5cb">';
+              outputhtml += '<img src="pic.png" alt="Profile" style="width:60px"><br>'
+              outputhtml += "<b>"+"User Name: "+"</b>"+ data.UserName + "<br>";
+			  outputhtml += "<b>"+"Login Email Id: "+"</b>" + data.User_LoggedInEmail + "<br>";
+			  outputhtml += "<b>"+"Email Id on Resume: "+"</b>" + data.Email[0] + "<br>";
+			  outputhtml += "<b>"+"Phone: "+"</b>" + data.Phone + "<br>";
+			  outputhtml += "<b>"+"Education: "+"</b>" + data.Education + "<br>";
+			  outputhtml += "<b>"+"skills: "+"</b>" + data.skills + "<br>";
+              outputhtml += "<b>"+"skills score: "+"</b>" + data.score+ "<br>";
+              outputhtml += "</div>";
+			  console.log(outputhtml)
+              document.getElementById("userDetails").innerHTML =outputhtml;
+			  document.getElementById("userDetails").style.display="block";
+            }).catch( function(result){
+              console.log('went to catch')
+            });
+}
+</script>
+</html>

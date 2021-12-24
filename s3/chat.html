@@ -1,0 +1,67 @@
+
+ 
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <meta charset="utf-8" /> -->
+ 
+        <title>Tuts+ Chat Application</title>
+        <meta name="description" content="Tuts+ Chat Application" />
+        <link rel="stylesheet" href="style1.css" />
+    </head>
+    <body>
+    
+        <div id="wrapper">
+            <div id="menu">
+                
+                <p class="logout"><a id="exit" href="#">Exit Chat</a></p>
+            </div>
+ 
+            <div id="chatbox">
+            
+            </div>
+ 
+            <form name="message" action="">
+                <input name="usermsg" type="text" id="usermsg" />
+                
+            </form>
+            <button name="submitmsg" onclick="WebSocketTest()" type="submit" id="submitmsg"  > Send </button>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            function WebSocketTest() {
+            
+            if ("WebSocket" in window) {
+               alert("WebSocket is supported by your Browser!");
+               
+               // Let us open a web socket
+               var ws = new WebSocket("wss://31yu0bjf42.execute-api.us-east-1.amazonaws.com/production");
+				
+               ws.onopen = function() {
+                  
+                  // Web Socket is connected, send data using send()
+                  ws.send('{"action":"sendMessage","message":"hiiii"}');
+                  alert("Message is sent...");
+               };
+				
+               ws.onmessage = function (evt) { 
+                  var received_msg = evt.data;
+                  console.log(evt);
+                  alert("Message is received...");
+               };
+				
+               ws.onclose = function() { 
+                  
+                  // websocket is closed.
+                  alert("Connection is closed..."); 
+               };
+            } else {
+              
+               // The browser doesn't support WebSocket
+               alert("WebSocket NOT supported by your Browser!");
+            }
+         }
+            
+        </script>
+    </body>
+</html>

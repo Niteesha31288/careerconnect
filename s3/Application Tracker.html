@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <!---we had linked our css file----->
+    <script id="test" type="text/javascript" src="findJobs/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="findJobs/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="findJobs/lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="findJobs/apigClient.js"></script>
+<script type="text/javascript" src="findJobs/appTracker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1045.0.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+</head>
+
+<body onload="loadAppTracker()">
+    <div class="full-page">
+        <div class="navbar">
+            <div>
+                <a href='website.html'>Career Connect</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <!-- <li><a href='index.html'>Home</a></li>
+                    <li><a href='Signup.html'>Signup</a></li> -->
+                    <li><a href='Profile.html'>Profile</a></li>
+                    <li><a href='Application+Tracker.html'>Application Tracker</a></li>
+                    <li><a href='Connect.html'>Connect</a></li>
+                    <li><a href='Find+Job.html'>Find Job</a></li>
+                    <li><a href='Discussion+Forum.html'>Discussion Forum</a></li>
+                    <li><a href='index.html'>SignOut</a></li>
+                    <!-- <li><button class='loginbtn' onclick="document.getElementById('login-           form').style.display='block'" style="width:auto;">Login</button></li> -->
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="Application" id="jobdata" style="width: 100%"></div>
+        <div class="Application" id="myData" style="width: 100%"></div>
+        <div class="Application" id="update" onstyle="width: 100%"></div>
+    </div>
+</body>
+
+</html>

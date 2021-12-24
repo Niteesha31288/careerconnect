@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <!---we had linked our css file----->
+</head>
+<body onload="getThreads()">
+    <div class="full-page">
+        <div class="navbar">
+            <div>
+                <a href='website.html'>Career Connect</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <!-- <li><a href='index.html'>Home</a></li>
+                    <li><a href='Signup.html'>Signup</a></li> -->
+                    <li><a href='Profile.html'>Profile</a></li>
+                    <li><a href='Application+Tracker.html'>Application Tracker</a></li>
+                    <li><a href='Connect.html'>Connect</a></li>
+                    <li><a href='Find+Job.html'>Find Job</a></li>
+                    <li><a href='Discussion+Forum.html'>Discussion Forum</a></li>
+                    <li><a href='https://careerconnect.auth.us-east-1.amazoncognito.com/logout?client_id=48rraapi5o38rp7oumomnvl181&logout_uri=https://frontendcareerconnect.s3.us-east-1.amazonaws.com/index.html'>SignOut</a></li>
+                    <!-- <li><button class='loginbtn' onclick="document.getElementById('login-           form').style.display='block'" style="width:auto;">Login</button></li> -->
+                </ul>
+            </nav>
+        </div>
+		<div class="Post">
+		<form>
+		<label for="Title" style="color: white">Topic Title:</label>
+		<input id="Title" type="text" placeholder="Enter the topic" name="Thread_title">
+		<br><br>
+		<label for="Thread" style="color: white">Content:</label>
+		<textarea id="Thread" name="Thread" rows="7" cols="50">
+		</textarea>
+		<br><br>
+		<input type="button" id="PostThread" style="height:50px;width:108px" value="Post" onclick="postThread()">
+		</form>
+		</div>
+		<h1 style="color: white">Latest Discussion Topics</h1>
+		<div class="Get" id="threads">
+		</div>
+    </div>
+</body>
+<script id="imgTest" type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="discussion_forum/apiGateway-js-sdk/apigClient.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1045.0.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+<script>
+function postThread(evt)
+{
+	const access_token = localStorage.getItem("access_token");
+	var title= document.getElementById("Title").value;
+	var content = document.getElementById("Thread").value; 
+	console.log(title)
+	console.log(content)
+	var body = JSON.stringify({"title": title, "content": content,"access_token": access_token});
+	var params = {
+				headers: {
+					param0: 'Accept:application/json',
+					},
+				token: access_token
+				};
+    var apigClient = apigClientFactory.newClient();
+	apigClient.rootPost(params, body)
+		.then(function(result){
+			console.log('went to then')
+        }).catch( function(result){
+              console.log('went to catch')
+		});
+	setTimeout(function(){
+    window.location.reload();
+}, 3000);
+};
+function getThreads(evt)
+{
+	var params = {
+              headers: {
+                param0: 'Accept:application/json'
+              },
+            };
+    var body = "";
+    var apigClient = apigClientFactory.newClient();
+            apigClient.rootGet(params, body)
+            .then(function(result){
+              console.log(result)
+              var data=result.data;
+              console.log(data)
+			  var arr=[]
+              for(var i=0;i<data.length;i++){
+					var outputhtml ="";
+					outputhtml += '<div class='+i+' style="background-color:#b0d5cb; border: 2px solid white;">'
+					outputhtml += '<h3 id="userid'+i+'" style="display: none;">'+data[i].userid+'</h3><br>'
+					outputhtml += '<h3 id= "likes'+i+'" style="color: black; text-align:left"> Likes-:'+data[i].likes+'</h3><br>'
+					outputhtml += '<h3 id= "title'+i+'" style="color: black">'+data[i].Thread_Title+'</h3><br>'
+					outputhtml += '<h3 id= "user'+i+'" style="color: black">'+data[i].userName+'</h3><br>'
+					outputhtml += '<h3 id= "timestamp'+i+'" style="color: black">'+data[i].timestamp+'</h3><br>'
+					outputhtml += '<h3 style="color: black">'+data[i].Thread_content+'</h3><br>'
+					outputhtml += '<form>'
+                    outputhtml += '<label for="comment" style="color: black">comment:</label>'
+                    outputhtml += '<textarea id="comment'+i+'" name="Thread" rows="2" cols="50"></textarea>'
+                    outputhtml += '<input type="button" id='+i+' style="height:50px;width:108px" value="comment" onclick="postComment('+i+')">'
+					outputhtml += '<input type="button" id="Like'+i+'" style="height:50px;width:108px" value="Like" onclick="postLikes('+i+')">'
+					outputhtml += '</form>'
+					outputhtml += '<h2 style="color: black"> Comments-:</h2>'
+					for(var j=0; j< data[i].comments.length; j++)
+					{
+					outputhtml += '<h3 style="color: black">'+data[i].comments[j].comment+'</h3>'+'<h3 style="color: black; text-align:right">'+data[i].comments[j].UserNameOfComment+'</h3><br>'
+					}
+					outputhtml += '</div>'
+                    outputhtml += '</div></div>'
+					arr.push(outputhtml)
+					
+              }
+			  console.log(arr);
+              document.getElementById("threads").innerHTML = arr;
+			  document.getElementById("threads").style.display="block";
+            }).catch( function(result){
+              console.log('went to catch')
+            });
+	
+};
+function postComment(evt)
+{	
+	
+	const access_token = localStorage.getItem("access_token");
+	var comment= this.document.getElementById("comment"+evt).value;
+	var userid= this.document.getElementById("userid"+evt).innerHTML;
+	var x= this.document.getElementById("title"+evt).innerHTML;
+	var x1= this.document.getElementById("user"+evt).innerHTML;
+	var x2= this.document.getElementById("timestamp"+evt).innerHTML;
+	console.log(comment)
+	console.log(userid)
+	console.log(x)
+	console.log(x1)
+	console.log(x2)
+	var body = JSON.stringify({"comment": comment,"access_token": access_token, "Thread_Title": x, "postOfUser": x1, "timestampCreated": x2, "userid": userid});
+	var params = {
+				headers: {
+					param0: 'Accept:application/json',
+					},
+				token: access_token
+				};
+    var apigClient = apigClientFactory.newClient();
+	apigClient.postcommentsPost(params, body)
+		.then(function(result){
+			console.log('went to then')
+        }).catch( function(result){
+              console.log('went to catch')
+		});
+	setTimeout(function(){
+    window.location.reload();
+}, 3000);
+};
+function postLikes(evt)
+{	
+	var like= 1;
+	var userid= this.document.getElementById("userid"+evt).innerHTML;
+	var x2= this.document.getElementById("timestamp"+evt).innerHTML;
+	console.log(like)
+	console.log(userid)
+	console.log(x2)
+	var body = JSON.stringify({"like": like, "timestampCreated": x2, "userid": userid});
+	var params = {
+				headers: {
+					param0: 'Accept:application/json',
+					},
+				};
+    var apigClient = apigClientFactory.newClient();
+	apigClient.postlikesPost(params, body)
+		.then(function(result){
+			console.log('went to then')
+        }).catch( function(result){
+              console.log('went to catch')
+		});
+	setTimeout(function(){
+    window.location.reload();
+}, 3000);
+};
+</script>
+</html>

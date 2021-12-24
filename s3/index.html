@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <!---we had linked our css file----->
+</head>
+<body>
+    <div class="full-page">
+        <div class="navbar">
+            <div>
+                <a href='website.html'>Career Connect</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <!-- <li><a href='https://career-connect.auth.us-east-1.amazoncognito.com/login?client_id=1f5h7srlvss8peuttitqn3jo37&response_type=code&scope=email+openid&redirect_uri=http://localhost:8000/Profile.html'>Home</a></li> -->
+                    <li><a href='https://careerconnect.auth.us-east-1.amazoncognito.com/signup?client_id=48rraapi5o38rp7oumomnvl181&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://frontendcareerconnect.s3.us-east-1.amazonaws.com/Profile.html'>Signup</a></li>
+                    <li><a href='https://careerconnect.auth.us-east-1.amazoncognito.com/login?client_id=48rraapi5o38rp7oumomnvl181&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://frontendcareerconnect.s3.us-east-1.amazonaws.com/Profile.html'>LogIn</a></li>
+                    <!-- <li><a href='Profile.html'>Profile</a></li>
+                    <li><a href='Application Tracker.html'>Application Tracker</a></li>
+                    <li><a href='Connect.html'>Connect</a></li>
+                    <li><a href='Find Job.html'>Find Job</a></li>
+                    <li><a href='Discussion Forum.html'>Discussion Forum</a></li> -->
+                    <!-- <li><button class='loginbtn' onclick="document.getElementById('login-           form').style.display='block'" style="width:auto;">Login</button></li> -->
+                </ul>
+            </nav>
+        </div>
+
+        <!-- <div class="search"> -->
+            <!-- <input class="srch" type="search" name="searchbox" placeholder="Type To text"> -->
+            <!-- <a href="#"> <button class="btn">Search</button></a> -->
+        <!-- </div> -->
+
+        <!-- <div class="form">
+            <h2>Login</h2>
+            <input type="Username" name="username" placeholder="Enter username here"required><br><br>
+            <input type="password" name="" placeholder="Enter your password"required>
+            <input type='checkbox'class='check-box'><span>Remember Password</span>
+            <button class="btn"><a href="Profile.html">Login</a></button><br><br>
+
+            <p class="link">Don't have an account<br><br>
+            <a href="Signup.html">Sign Up </a>here</a></p><br>
+            <p class="liw">Login in with</p>
+            <div class="icon">
+                <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+                <a href="#"><ion-icon name="logo-google"></ion-icon></a>
+                <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
+                
+            </div>
+
+        </div>-->
+    </div>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <!-- var idToken = null;
+
+    function checkLogin() {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        idToken = url.searchParams.get("id_token");
+        if (idToken != null) {
+            document.getElementById("welcomeMsg").innerHTML = "signed in";
+            auth();
+        }
+    }
+    
+    function auth() {
+        AWS.config.update({
+          region: "us-east-2",
+        //  endpoint: 'http://localhost:8000', // If you use dynamoDB installed locally
+        //  accessKeyId: "(ACCESS_KEY_ID)",
+        //  secretAccessKey: "(SECRET_ACCESS_KEY)"
+    
+        });
+    
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId : 'us-east-1:d95c65f6-f9c1-446c-84c0-f19ae49c9ae5',
+                Logins : {
+                  "cognito-idp.us-east-1.amazonaws.com/us-east-1_EmlXCEg6E": idToken
+                }
+              });
+    } -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

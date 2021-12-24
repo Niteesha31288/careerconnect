@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <!---we had linked our css file----->
+</head>
+<body onload="fetchConnections()">
+    <div class="full-page">
+        <div class="navbar">
+            <div>
+                <a href='website.html'>Career Connect</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <!-- <li><a href='index.html'>Home</a></li>
+                    <li><a href='Signup.html'>Signup</a></li> -->
+                    <li><a href='Profile.html'>Profile</a></li>
+                    <li><a href='Application+Tracker.html'>Application Tracker</a></li>
+                    <li><a href='Connect.html'>Connect</a></li>
+                    <li><a href='Find+Job.html'>Find Job</a></li>
+                    <li><a href='Discussion+Forum.html'>Discussion Forum</a></li>
+                    <li><a href='https://careerconnect.auth.us-east-1.amazoncognito.com/logout?client_id=48rraapi5o38rp7oumomnvl181&logout_uri=https://frontendcareerconnect.s3.us-east-1.amazonaws.com/index.html'>SignOut</a></li>
+                    <!-- <li><button class='loginbtn' onclick="document.getElementById('login-           form').style.display='block'" style="width:auto;">Login</button></li> -->
+                </ul>
+            </nav>
+        </div>
+        <div class="Connect" id="myData" style="width: 100%">
+            <!-- <h1>Connect</h1><br><br> -->
+            <!-- <div class="row">
+                <div class="column">
+                  <img src="connect1.jpeg" alt="Snow" style="width:100%">
+                </div>
+                <div class="column">
+                  <img src="connect2.jpeg" alt="Forest" style="width:100%">
+                </div>
+              </div> -->
+        </div>
+    </div>
+</body>
+<script id="Test" type="text/javascript" src="apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="apiGateway-js-sdk/apigClient.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+<!-- <script src="dist/main.js"></script> -->
+<script>
+function fetchConnections() {
+    const access_token = localStorage.getItem("access_token");
+    console.log(access_token);
+    var params = {
+              headers: {
+                param0: 'Accept:application/json'
+              },
+              token: access_token
+            };
+    var body = JSON.stringify({"token": access_token});
+    var apigClient = apigClientFactory.newClient();
+            apigClient.rootGet(params, body)
+            .then(function(result){
+              console.log(result)
+              var data=JSON.parse(result.data.body);
+              var flag=0;
+			  var arr=[];
+              
+              for(var i=0;i<data.length;i++){
+				var outputhtml ="";
+                if(data[i].noOfMatchedSkills>0){
+                    outputhtml += '<div class="row" style="height:50%;width:100%;background-color:#b0d5cb>'
+                    outputhtml += '<div class="column" style="height:75px;width:100%;background-color:#b0d5cb">';
+                    outputhtml += '<img src="pic.png" alt="Profile" style="width:60px"><br>'
+                    outputhtml += data[i].Name + "<br>";
+                    outputhtml += data[i].Email + "<br>";
+					outputhtml += data[i].PhoneNumber+ "<br>";
+                    outputhtml += "No of Matched skills: " + data[i].noOfMatchedSkills + "<br>";
+                    outputhtml += "</div>";
+                }
+				arr.push(outputhtml)
+              }
+
+              document.getElementById("myData").innerHTML = arr;
+
+            }).catch( function(result){
+              console.log('went to catch')
+            });
+  }
+</script>
+</html>

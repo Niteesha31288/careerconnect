@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Connect</title>
+    <link rel="stylesheet" href="style.css">
+    <!---we had linked our css file----->
+</head>
+<body onload="load()">
+    <div class="full-page">
+        <div class="navbar">
+            <div>
+                <a href='website.html'>Career Connect</a>
+            </div>
+            <nav>
+                <ul id='MenuItems'>
+                    <!-- <li><a href='index.html'>Home</a></li>
+                    <li><a href='Signup.html'>Signup</a></li> -->
+                    <li><a href='Profile.html'>Profile</a></li>
+                    <li><a href='Application+Tracker.html'>Application Tracker</a></li>
+                    <li><a href='Connect.html'>Connect</a></li>
+                    <li><a href='Find+Job.html'>Find Job</a></li>
+                    <li><a href='Discussion+Forum.html'>Discussion Forum</a></li>
+                    <li><a href='index.html'>SignOut</a></li>
+                    <!-- <li><button class='loginbtn' onclick="document.getElementById('login-           form').style.display='block'" style="width:auto;">Login</button></li> -->
+                </ul>
+            </nav>
+        </div>
+        <div class="FindJob" id="myData" style="width: 100%">
+        </div>
+        <div class="applied" id ="applied" style="width:100%"></div>
+    </div>
+</body>
+<script id="test" type="text/javascript" src="findJobs/lib/axios/dist/axios.standalone.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/rollups/sha256.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/components/hmac.js"></script>
+<script type="text/javascript" src="findJobs/lib/CryptoJS/components/enc-base64.js"></script>
+<script type="text/javascript" src="findJobs/lib/url-template/url-template.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/sigV4Client.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/apiGatewayClient.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/simpleHttpClient.js"></script>
+<script type="text/javascript" src="findJobs/lib/apiGatewayCore/utils.js"></script>
+<script type="text/javascript" src="findJobs/apigClient.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1045.0.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+<script>
+    function load(){
+        const access_token = localStorage.getItem("access_token");
+        var params = {
+                headers: {
+                    param0: 'Accept:application/json',
+                    },
+                token: access_token
+                };
+        var body = JSON.stringify({"access_token": access_token});
+        var apigClient = apigClientFactory.newClient();
+            apigClient.getjobsuggestionsGet(params, body)
+            .then(function(result){
+                console.log(result);
+                console.log(result.data.body);
+              var data=JSON.parse(result.data.body);
+              var outputhtml ="";
+              for(var i=0;i<data.length;i++){
+                outputhtml += '<div class="row" style="height:50%;width:100%;background-color:#b0d5cb>'
+                    outputhtml += '<div class="column" style="height:75px;width:100%;background-color:#b0d5cb">';
+                    outputhtml += '<img src="job.png" alt="Profile" style="width:60px"><br>'
+                    outputhtml += data[i].job_title + "<br>";
+                    outputhtml += data[i].min_salary + "<br>";
+                    // outputhtml += "No of Matched skills: " + data[i].noOfMatchedSkills + "<br>";
+                    outputhtml += '<input type=button id="connect" onclick = "applyJob(' +data[i].job_id + ')" style="height:25px;width:=80px" value="Apply"><br></div>';
+                    outputhtml += "</div>";
+              }
+              document.getElementById("myData").innerHTML = outputhtml;
+
+            }).catch( function(result){
+              console.log('Error occured')
+            });
+    }
+    function applyJob(jobid){
+        console.log(jobid);
+        const access_token = localStorage.getItem("access_token");
+        var params = {
+                headers: {
+                    param0: 'Accept:application/json',
+                    },
+                    userEmail: access_token,
+                    jobId : jobid
+                };
+        var body = JSON.stringify({"userEmail": access_token, "jobId":jobid});
+        var apigClient = apigClientFactory.newClient();
+            apigClient.applyforjobPost(params, body)
+            .then(function(result){
+                console.log(result);
+                console.log(result.data.body);
+              var data=result.data.body;
+              var outputhtml =data;
+              alert(outputhtml);
+
+            }).catch( function(result){
+              console.log('Error occured')
+            });
+    }
+</script>
+</html>
